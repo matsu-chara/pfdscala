@@ -5,8 +5,8 @@ import org.scalatest.{DiagrammedAssertions, FunSuite}
 class HeapImplTest extends FunSuite with DiagrammedAssertions {
 
   test("testMerge") {
-    import Heap._
-    import HeapImpl._
+    import chapter3.leftist.Heap._
+    import chapter3.leftist.HeapImpl._
 
     val empty = Empty[Int]()
     val i1 = insert(1, empty)

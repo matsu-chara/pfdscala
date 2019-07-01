@@ -1,4 +1,4 @@
-package chapter3
+package chapter3.leftist
 
 sealed abstract class Heap[T] {
   val rank: Int
