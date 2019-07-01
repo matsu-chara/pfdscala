@@ -54,4 +54,5 @@ object RedBlackTree {
       else n
   }
 
+  Stream
 }
