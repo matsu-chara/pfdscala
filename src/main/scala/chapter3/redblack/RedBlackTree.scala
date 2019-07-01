@@ -6,7 +6,7 @@ case object B extends Color
 
 sealed trait Tree[+E]
 case object Empty extends Tree[Nothing]
-case class Node[E](color: Color, left: Tree[E], elem: E, right: Tree[E]) extends Tree[E]
+case class Node[+E](color: Color, left: Tree[E], elem: E, right: Tree[E]) extends Tree[E]
 
 object RedBlackTree {
   import Ordered._
@@ -41,8 +41,8 @@ object RedBlackTree {
 
   def rbalance[E: Ordering](color: Color, left: Tree[E], elem: E, right: Tree[E]): Node[E] = {
     (color, left, elem, right) match {
-      case (B, Node(R, Node(R, a, x, b), y, c), z, d) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
-      case (B, Node(R, a, x, Node(R, b, y, c)), z, d) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
+      case (B, a, x, Node(R, b, y, Node(R, c, z, d))) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
+      case (B, a, x, Node(R, Node(R, b, y, c), z, d)) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
     }
   }
 
@@ -53,6 +53,4 @@ object RedBlackTree {
       else if (x > y) rbalance(color, a, y, ins(x, b))
       else n
   }
-
-  Stream
 }

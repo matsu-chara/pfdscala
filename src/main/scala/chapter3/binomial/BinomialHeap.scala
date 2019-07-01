@@ -34,7 +34,7 @@ object Heap {
       else insTree(link(h1, h2), merge(Heap(t1), Heap(t2)))
   }
 
-  def findMin[A: Ordering](heap: Heap[A]): A = heap match {
+  def findMin[A: Ordering](heap: Heap[A]): A = (heap: @unchecked) match {
     case Heap(t :: Nil) =>
       t.value
     case Heap(t :: ts) =>
@@ -58,7 +58,7 @@ object Heap {
       }
   }
 
-  private def removeMinTree[A: Ordering](heap: Heap[A]): (Tree[A], Heap[A]) = heap match {
+  private def removeMinTree[A: Ordering](heap: Heap[A]): (Tree[A], Heap[A]) = (heap: @unchecked) match {
     case Heap(t :: Nil) => (t, Heap(Nil))
     case Heap(t1 :: ts1) =>
       val (t2, Heap(ts2)) = removeMinTree(Heap(ts1))

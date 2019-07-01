@@ -24,7 +24,7 @@ object Cons {
     (n, a) match {
       case (0, _) => Nil
       case (_, Nil) => Nil
-      case (i, Cons(_, t)) => drop(i - 1, t)()
+      case (i, Cons(_, t)) => drop(i - 1, t)
     }
   }
 
