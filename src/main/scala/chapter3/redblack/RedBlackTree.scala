@@ -29,6 +29,7 @@ object RedBlackTree {
       case (B, Node(R, a, x, Node(R, b, y, c)), z, d) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
       case (B, a, x, Node(R, b, y, Node(R, c, z, d))) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
       case (B, a, x, Node(R, Node(R, b, y, c), z, d)) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
+      case _ => throw new IllegalArgumentException()
     }
   }
 
@@ -36,6 +37,7 @@ object RedBlackTree {
     (color, left, elem, right) match {
       case (B, Node(R, Node(R, a, x, b), y, c), z, d) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
       case (B, Node(R, a, x, Node(R, b, y, c)), z, d) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
+      case _ => throw new IllegalArgumentException()
     }
   }
 
@@ -43,6 +45,7 @@ object RedBlackTree {
     (color, left, elem, right) match {
       case (B, a, x, Node(R, b, y, Node(R, c, z, d))) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
       case (B, a, x, Node(R, Node(R, b, y, c), z, d)) => Node(R, Node(B, a, x, b), y, Node(B, c, z, d))
+      case _ => throw new IllegalArgumentException()
     }
   }
 
