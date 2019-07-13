@@ -39,7 +39,7 @@ case class BankersDeque[A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A])
 
   def reverse: BankersDeque[A] = BankersDeque(lenr, r, lenf, f)
 
-  override def init: Deque[A] = reverse.tail.reverse
+  override def init: BankersDeque[A] = reverse.tail.reverse
 
   override def tail: BankersDeque[A] = (f, r) match {
     case (LNil, _ #:: r_) => empty
