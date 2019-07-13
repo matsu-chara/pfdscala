@@ -19,9 +19,9 @@ case class RealtimeQueue[+A](f: LazyList[A], r: List[A], s: LazyList[A]) {
     * @note call this when "add to rear" or "drop from front" |s| = |f| - |r| + 1
     */
   private def exec: RealtimeQueue[A] = this match {
-    case RealtimeQueue(_f, _r, x #:: _s) =>
+    case RealtimeQueue(_f, _r, _ #:: _s) =>
       RealtimeQueue(_f, _r, _s) // eval front via s. and drop front s (because it was already evaluated)
-    case RealtimeQueue(_f, _r, `LNil`) =>
+    case RealtimeQueue(_f, _r, LNil) =>
       val __f = RealtimeQueue.rotate(_f, _r, LNil)
       RealtimeQueue(__f, Nil, __f)
   }
