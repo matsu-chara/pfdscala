@@ -16,6 +16,7 @@ sealed abstract class NoDropRotationState[A] {
     case Appending(x :: f_, r_) => Appending(f_, x :: r_)
     case Appending(Nil, r_) => Done(r_)
     case Done(_) => throw new IllegalStateException
+    case _ => throw new IllegalStateException()
   }
 }
 object NoDropRotationState {

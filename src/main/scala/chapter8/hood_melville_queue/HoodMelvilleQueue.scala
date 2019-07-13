@@ -1,6 +1,5 @@
-package chapter8
+package chapter8.hood_melville_queue
 
-import chapter8.hood_melville_queue.RotationState
 import chapter8.hood_melville_queue.RotationState.{Done, Idle, Reversing}
 
 case class HoodMelvilleQueue[A](lenf: Int, f: List[A], state: RotationState[A], lenr: Int, r: List[A]) {
