@@ -24,32 +24,26 @@ case class BankersDeque[A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A])
     lenf + lenr == 0
   }
 
-  override def cons(a: A): Deque[A] = {
+  override def snoc(a: A): BankersDeque[A] = reverse.cons(a).reverse
+
+  override def cons(a: A): BankersDeque[A] = {
     check(lenf + 1, a #:: f, lenr, r)
   }
+
+  override def last: A = reverse.head
 
   override def head: A = (f, r) match {
     case (LNil, x #:: _) => x
     case (x #:: _, _) => x
   }
 
-  override def tail: Deque[A] = (f, r) match {
+  def reverse: BankersDeque[A] = BankersDeque(lenr, r, lenf, f)
+
+  override def init: Deque[A] = reverse.tail.reverse
+
+  override def tail: BankersDeque[A] = (f, r) match {
     case (LNil, _ #:: r_) => empty
     case (_ #:: f_, r_) => check(lenf - 1, f_, lenr, r)
-  }
-
-  override def snoc(a: A): Deque[A] = {
-    check(lenf, f, lenr + 1, a #:: r)
-  }
-
-  override def last: A = (f, r) match {
-    case (x #:: _, LNil) => x
-    case (_, x #:: _) => x
-  }
-
-  override def init: Deque[A] = (f, r) match {
-    case (_ #:: r_, LNil) => empty
-    case (r_, _ #:: f_) => check(lenf - 1, f_, lenr, r)
   }
 }
 
