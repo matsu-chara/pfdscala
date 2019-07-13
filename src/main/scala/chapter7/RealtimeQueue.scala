@@ -3,13 +3,13 @@ package chapter7
 /**
   * @param s scuedule
   */
-case class RealtimeQueue[A](f: LazyList[A], r: List[A], s: LazyList[A]) {
+case class RealtimeQueue[+A](f: LazyList[A], r: List[A], s: LazyList[A]) {
 
   import RealtimeQueue._
 
   def isEmpty: Boolean = if (f.isEmpty) true else false
 
-  def snoc(x: A): RealtimeQueue[A] = {
+  def snoc[B >: A](x: B): RealtimeQueue[B] = {
     RealtimeQueue(f, x :: r, s).exec
   }
 
@@ -21,7 +21,7 @@ case class RealtimeQueue[A](f: LazyList[A], r: List[A], s: LazyList[A]) {
   private def exec: RealtimeQueue[A] = this match {
     case RealtimeQueue(_f, _r, x #:: _s) =>
       RealtimeQueue(_f, _r, _s) // eval front via s. and drop front s (because it was already evaluated)
-    case RealtimeQueue(_f, _r, LNil) =>
+    case RealtimeQueue(_f, _r, `LNil`) =>
       val __f = RealtimeQueue.rotate(_f, _r, LNil)
       RealtimeQueue(__f, Nil, __f)
   }
@@ -44,7 +44,7 @@ case class RealtimeQueue[A](f: LazyList[A], r: List[A], s: LazyList[A]) {
 object RealtimeQueue {
   def empty[A]: RealtimeQueue[A] = RealtimeQueue[A](LNil, Nil, LNil)
 
-  private def LNil[A] = LazyList.empty[A]
+  private val LNil = LazyList.empty[Nothing]
 
   @deprecated
   private def rotate0[A](xs: LazyList[A], ys: List[A], acc: LazyList[A]): LazyList[A] = {

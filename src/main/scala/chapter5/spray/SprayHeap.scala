@@ -12,6 +12,7 @@ object SprayHeap {
   }
 
   def findMin[E: Ordering](t: Tree[E]): E = t match {
+    case Empty() => throw new NoSuchElementException
     case Node(Empty(), x, _) => x
     case Node(a, _, _) => findMin(a)
   }
