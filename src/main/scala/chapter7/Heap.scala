@@ -1,24 +1,40 @@
 package chapter7
 
-case class Tree[A: Ordering](rank: Int, value: A, children: LazyList[Tree[A]])
+import cats.Eval
 
-case class Heap[A: Ordering](trees: LazyList[Tree[A]]) {
+import scala.collection.immutable.LazyList
+
+case class Tree[+A: Ordering](rank: Int, value: A, children: LazyList[Tree[A]])
+
+case class Heap[+A: Ordering](trees: LazyList[Tree[A]])
+
+object Heap {
   import Ordered._
-  import Heap._
 
-//  def link[A: Ordering](t1: Tree[A], t2: Tree[A]): Tree[A] = {
-//    if (t1.rank != t2.rank) throw new IllegalArgumentException() else ()
-//
-//    (t1, t2) match {
-//      case (Tree(r1, v1, c1), Tree(_, v2, c2)) =>
-//        if (v1 <= v2) {
-//          Tree(r1 + 1, v1, t2 #:: c1)
-//        } else {
-//          Tree(r1 + 1, v2, t1 #:: c2)
-//        }
-//    }
-//  }
-//
+
+  def link[A: Ordering](t1: Tree[A], t2: Tree[A]): Tree[A] = {
+    if (t1.rank != t2.rank) throw new IllegalArgumentException() else ()
+
+    (t1, t2) match {
+      case (Tree(r1, v1, c1), Tree(_, v2, c2)) =>
+        if (v1 <= v2) {
+          Tree(r1 + 1, v1, t2 #:: c1)
+        } else {
+          Tree(r1 + 1, v2, t1 #:: c2)
+        }
+    }
+  }
+
+  def insTree[A: Ordering](tree: Tree[A], list: LazyList[Tree[A]]): Eval[LazyList[Tree[A]]] = Eval.defer {
+    (tree, list) match {
+      case (t, LNil) => Eval.later(t #:: LNil)
+      case (t, ts) =>
+        if(t.rank < ts.head.rank) Eval.later(t #:: ts)
+        else insTree(link(t, ts.head), ts.tail)
+    }
+  }
+
+  //
 //  def rank[A: Ordering](tree: Tree[A]): Int = tree.rank
 //
 //  def insert[A: Ordering](elem: A, heap: Heap[A]): Heap[A] = {
@@ -65,21 +81,6 @@ case class Heap[A: Ordering](trees: LazyList[Tree[A]]) {
 //  }
 //
 
+  private val LNil: LazyList[Nothing] = LazyList.empty
 }
 
-object Heap {
-  import cats.Eval
-
-  def LNil[A]: LazyList[A] = LazyList.empty[A]
-
-  def insTree[A: Ordering](tree: Tree[A], list: LazyList[Tree[A]]): Eval[LazyList[Tree[A]]] = Eval.later {
-    (tree, list) match {
-      case (t, LNil) => t #:: LNil
-      case (t, ts@ _t #:: ts_) =>
-        val a: A = null
-        import Ordering._
-        import Ordered._
-        a.lt
-    }
-  }
-}
