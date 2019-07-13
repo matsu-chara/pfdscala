@@ -17,6 +17,7 @@ object SprayHeap {
   }
 
   def deleteMin[E: Ordering](t: Tree[E]): Tree[E] = t match {
+    case Empty() => throw new NoSuchElementException()
     case Node(Empty(), _, b) => b
     case Node(Node(Empty(), x, b), y, c) => Node(b, y, c)
     case Node(Node(a, x, b), y, c) => Node(deleteMin(a), x, Node(b, y, c))
