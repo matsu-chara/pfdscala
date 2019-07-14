@@ -10,6 +10,22 @@ sealed trait Digit {}
 object Digit {
   type Nat = List[Digit]
 
+  def dec(n: Nat): Nat = n match {
+    case One :: Nil => Nil
+    case One :: ds => Two :: dec(ds)
+    case Two :: ds => One :: ds
+    case _ => throw new NoSuchElementException
+  }
+
+  def add(num1: Nat, num2: Nat): Nat = (num1, num2) match {
+    case (n1, Nil) => n1
+    case (Nil, n2) => n2
+    case (One :: ns1, One :: ns2) => Two :: add(ns1, ns2)
+    case (One :: ns1, Two :: ns2) => One :: inc(add(ns1, ns2))
+    case (Two :: ns1, One :: ns2) => One :: inc(add(ns1, ns2))
+    case (Two :: ns1, Two :: ns2) => One :: inc(inc(add(ns1, ns2)))
+  }
+
   def fromString(str: String): Nat = {
     str.map {
       case '1' => One
@@ -29,22 +45,6 @@ object Digit {
     case Nil => One :: Nil
     case One :: ds => Two :: ds
     case Two :: ds => One :: inc(ds)
-  }
-
-  def dec(n: Nat): Nat = n match {
-    case One :: Nil => Nil
-    case One :: ds => Two :: dec(ds)
-    case Two :: ds => One :: ds
-  }
-
-  def add(num1: Nat, num2: Nat): Nat = (num1, num2) match {
-    case (n1, Nil) => n1
-    case (Nil, n2) => n2
-    case (One :: ns1, One :: ns2) => Two :: add(ns1, ns2)
-    case (One :: ns1, Two :: ns2) => One :: inc(add(ns1, ns2))
-    case (Two :: ns1, Two :: ns2) => One :: inc(add(ns1, ns2))
-    case (Two :: ns1, Two :: ns2) => One :: inc(inc(add(ns1, ns2)))
-
   }
 
   case object One extends Digit
