@@ -1,4 +1,4 @@
-package chapter9
+package chapter9.binary_random
 
 sealed trait Tree[+A] {
   def size: Int
@@ -16,15 +16,18 @@ case class BinaryRandomAccessList[A](ts: List[Digit[A]]) {
 
   import BinaryRandomAccessList._
 
+  /** O(log n) */
   def cons(x: A): BinaryRandomAccessList[A] = {
     BinaryRandomAccessList(consTree(Leaf(x), ts))
   }
 
+  /** O(log n) */
   def head: A = {
     val Leaf(v) = unconsTree(ts)._1
     v
   }
 
+  /** O(log n) */
   def tail: List[Digit[A]] = unconsTree(ts)._2
 }
 
