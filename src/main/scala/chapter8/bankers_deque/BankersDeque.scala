@@ -1,22 +1,22 @@
 package chapter8.bankers_deque
 
-trait Deque[A] {
+trait Deque[+A] {
   def isEmpty: Boolean
 
-  def cons(a: A): Deque[A]
+  def cons[B >: A](a: B): Deque[B]
 
   def head: A
 
   def tail: Deque[A]
 
-  def snoc(a: A): Deque[A]
+  def snoc[B >: A](a: B): Deque[B]
 
   def last: A
 
   def init: Deque[A]
 }
 
-case class BankersDeque[A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A]) extends Deque[A] {
+case class BankersDeque[+A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A]) extends Deque[A] {
 
   import BankersDeque._
 
@@ -24,9 +24,9 @@ case class BankersDeque[A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A])
     lenf + lenr == 0
   }
 
-  override def snoc(a: A): BankersDeque[A] = reverse.cons(a).reverse
+  override def snoc[B >: A](a: B): BankersDeque[B] = reverse.cons(a).reverse
 
-  override def cons(a: A): BankersDeque[A] = {
+  override def cons[B >: A](a: B): BankersDeque[B] = {
     check(lenf + 1, a #:: f, lenr, r)
   }
 
