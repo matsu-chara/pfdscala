@@ -2,12 +2,12 @@ package chapter8.hood_melville_queue
 
 import chapter8.hood_melville_queue.RotationState.{Done, Idle, Reversing}
 
-case class HoodMelvilleQueue[A](lenf: Int, f: List[A], state: RotationState[A], lenr: Int, r: List[A]) {
+case class HoodMelvilleQueue[+A](lenf: Int, f: List[A], state: RotationState[A], lenr: Int, r: List[A]) {
   def isEmpty: Boolean = {
     lenf == 0
   }
 
-  def snoc(x: A): HoodMelvilleQueue[A] = {
+  def snoc[B >: A](x: B): HoodMelvilleQueue[B] = {
     HoodMelvilleQueue(lenf, f, state, lenr + 1, x :: r).check
   }
 

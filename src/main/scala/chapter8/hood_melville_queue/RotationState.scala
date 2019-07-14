@@ -1,6 +1,6 @@
 package chapter8.hood_melville_queue
 
-sealed abstract class RotationState[A] {
+sealed abstract class RotationState[+A] {
 
   import RotationState._
 
