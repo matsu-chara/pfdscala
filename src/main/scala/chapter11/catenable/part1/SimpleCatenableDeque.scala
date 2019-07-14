@@ -24,10 +24,10 @@ sealed trait SimpleCatenableDeque[+A] {
       else Deep(d1, Eval.now(SimpleCatenableDeque.empty), d2)
     case (Shallow(d), Deep(f, m, r)) =>
       if (tooSmall(d)) Deep(dappendL(d, f), m, r)
-      else Deep(d, Eval.always(m.value.cons(f)), r)
+      else Deep(d, Eval.later(m.value.cons(f)), r)
     case (Deep(f, m, r), Shallow(d)) =>
       if (tooSmall(d)) Deep(f, m, dappendR(r, d))
-      else Deep(f, Eval.always(m.value.snoc(r)), d)
+      else Deep(f, Eval.later(m.value.snoc(r)), d)
     case (Deep(f1, m1, r1), Deep(f2, m2, r2)) =>
       Deep(f1, Eval.later(m1.value.snoc(r1) ++ m2.value.cons(f2)), r2)
   }

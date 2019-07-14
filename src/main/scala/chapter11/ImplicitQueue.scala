@@ -25,6 +25,7 @@ sealed trait ImplicitQueue[+A] {
     case Shallow(One(x)) => Deep(Two(x, y), Eval.later(empty), Zero)
     case Deep(f, m, Zero) => Deep(f, m, One(y))
     case Deep(f, m, One(x)) => Deep(f, Eval.later(m.value.snoc((x, y))), Zero)
+    case _ => throw new IllegalStateException
   }
 
   def head: A = this match {
@@ -32,6 +33,7 @@ sealed trait ImplicitQueue[+A] {
     case Shallow(One(x)) => x
     case Deep(One(x), _, _) => x
     case Deep(Two(x, _), _, _) => x
+    case _ => throw new IllegalStateException
   }
 
   def tail: ImplicitQueue[A] = this match {
@@ -44,6 +46,7 @@ sealed trait ImplicitQueue[+A] {
         val (y, z) = q.value.head
         Deep(Two(y, z), Eval.later(q.value.tail), r)
       }
+    case _ => throw new IllegalStateException
   }
 }
 

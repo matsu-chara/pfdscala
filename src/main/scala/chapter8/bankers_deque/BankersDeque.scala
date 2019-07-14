@@ -3,6 +3,8 @@ package chapter8.bankers_deque
 trait Deque[+A] {
   def isEmpty: Boolean
 
+  def size: Int
+
   def cons[B >: A](a: B): Deque[B]
 
   def head: A
@@ -23,6 +25,8 @@ case class BankersDeque[+A](lenf: Int, f: LazyList[A], lenr: Int, r: LazyList[A]
   override def isEmpty: Boolean = {
     lenf + lenr == 0
   }
+
+  override def size: Int = lenf + lenr
 
   override def snoc[B >: A](a: B): BankersDeque[B] = reverse.cons(a).reverse
 
