@@ -1,7 +1,7 @@
 package chapter11.catenable.part1
 
 import cats.Eval
-import chapter8.bankers_deque.BankersDeque
+import chapter08.bankers_deque.BankersDeque
 
 sealed trait SimpleCatenableDeque[+A] {
 

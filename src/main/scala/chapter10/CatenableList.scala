@@ -1,7 +1,7 @@
 package chapter10
 
 import cats.Eval
-import chapter8.hood_melville_queue.HoodMelvilleQueue
+import chapter08.hood_melville_queue.HoodMelvilleQueue
 
 sealed trait CatenableList[+A] {
 
